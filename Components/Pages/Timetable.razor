@@ -1,0 +1,41 @@
+﻿@page "/timetable/{SearchStartStation}/{SearchEndStation}/{SearchDateSelected}"
+
+<div class="timetable">
+	@* General information about user's input *@
+	<div class="info">
+		<div>
+			<h5>Stacja początkowa: @SearchStartStation</h5>
+		</div>
+		<div>
+			<h5>Stacja końcowa: @SearchEndStation</h5>
+		</div>
+		<div>
+			<h5>Data: @SearchDateSelected</h5>
+		</div>
+	</div>
+
+	@* Timetable *@
+
+</div>
+
+@code {
+
+	// Attributes
+	[Parameter]
+	public string SearchStartStation
+	{
+		get; set;
+	} = "Start";
+
+	[Parameter]
+	public string SearchEndStation
+	{
+		get; set;
+	} = "Koniec";
+
+	[Parameter]
+	public string SearchDateSelected
+	{
+		get; set;
+	} = DateTime.Now.ToString();
+}

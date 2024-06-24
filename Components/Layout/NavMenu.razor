@@ -1,30 +1,62 @@
-﻿<div class="top-row ps-3 navbar navbar-dark">
-    <div class="container-fluid">
-        <a class="navbar-brand" href="">RozkladJazdyBlazor</a>
-    </div>
+﻿@inject Microsoft.AspNetCore.Components.NavigationManager navigationManager
+
+<div class="search-bar">
+	<EditForm Model="inputFromUser" FormName="connection-search" OnSubmit="Submit">
+		<div class="search-field">
+			<label>Stacja początkowa</label>
+			<InputText @bind-Value="inputFromUser.SearchStartStation" />
+		</div>
+		<div class="search-field">
+			<label>Stacja końcowa</label>
+			<InputText @bind-Value="inputFromUser.SearchEndStation" />
+		</div>
+		<div class="search-field">
+			<label>Data</label>
+			<InputDate @bind-Value="inputFromUser.SearchDateSelected" />
+		</div>
+		<div>
+			<button type="submit">Wyszukaj!</button>
+		</div>
+	</EditForm>
 </div>
 
-<input type="checkbox" title="Navigation menu" class="navbar-toggler" />
+@code {
+	SearchInput inputFromUser = new SearchInput();
 
-<div class="nav-scrollable" onclick="document.querySelector('.navbar-toggler').click()">
-    <nav class="flex-column">
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
-                <span class="bi bi-house-door-fill-nav-menu" aria-hidden="true"></span> Home
-            </NavLink>
-        </div>
+	// Execute when form is submitted
+	public void Submit()
+	{
+		navigationManager.NavigateTo($"/timetable/{inputFromUser.SearchStartStation}/{inputFromUser.SearchEndStation}/{inputFromUser.SearchDateSelected.ToString()}");
+	}
 
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="counter">
-                <span class="bi bi-plus-square-fill-nav-menu" aria-hidden="true"></span> Counter
-            </NavLink>
-        </div>
+	public class SearchInput
+	{
+		// Attributes
+		public string SearchStartStation
+		{
+			get; set;
+		}
+		public string SearchEndStation
+		{
+			get; set;
+		}
+		public DateTime SearchDateSelected
+		{
+			get; set;
+		}
 
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="weather">
-                <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Weather
-            </NavLink>
-        </div>
-    </nav>
-</div>
-
+		// Constructors
+		public SearchInput(string start, string end, DateTime date)
+		{
+			SearchStartStation = string.IsNullOrEmpty(start) ? " " : start;
+			SearchEndStation = string.IsNullOrEmpty(end) ? " " : end;
+			SearchDateSelected = date;
+		}
+		public SearchInput()
+		{
+			SearchStartStation = "Start";
+			SearchEndStation = "Koniec";
+			SearchDateSelected = DateTime.Now;
+		}
+	}
+}
