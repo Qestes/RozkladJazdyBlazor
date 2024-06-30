@@ -1,0 +1,46 @@
+﻿@using Microsoft.EntityFrameworkCore
+@using RozkladJazdyBlazor.Data
+@inject IDbContextFactory<PolregioContext> PolregioContextFactory;
+@page "/"
+
+<h3>DatabaseTest</h3>
+
+@if (@OurAgencies is not null && @OurAgencies.Count > 0)
+{
+    <div class="table-responsive">
+        <table class="table table-striped table-hover table-bordered table-light border-dark">
+            <thead>
+                <tr>
+                    <th scope="col">Short name</th>
+                    <th scope="col">Long name</th>
+                    <th scope="col">Type</th>
+                    <th scope="col">Text    color</th>
+                    <th scope="col">Color</th>
+                </tr>
+            </thead>
+            <tbody>
+
+                @foreach (var agency in @OurAgencies)
+                {
+
+                    <tr>
+                        <th scope="row">@agency.route_short_name</th>
+                        <td>@agency.route_long_name</td>
+                        <td>@agency.route_type</td>
+                        <td>@agency.route_text_color</td>
+                        <td>@agency.route_color</td>
+                    </tr>
+                }
+
+            </tbody>
+        </table>
+    </div>
+}
+
+@code {
+
+    protected override async Task OnInitializedAsync()
+    {
+        await ShowEmployees();    
+    }
+}

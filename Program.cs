@@ -1,10 +1,17 @@
 using RozkladJazdyBlazor.Components;
+using RozkladJazdyBlazor.Data;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorComponents()
 	.AddInteractiveServerComponents();
+
+var connectionString = builder.Configuration.GetConnectionString("PolregioDB");
+builder.Services.AddServerSideBlazor();
+builder.Services.AddDbContextFactory<PolregioContext>(options => options.UseSqlite(connectionString));
 
 var app = builder.Build();
 
