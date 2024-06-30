@@ -11,7 +11,7 @@ builder.Services.AddRazorComponents()
 
 var connectionString = builder.Configuration.GetConnectionString("PolregioDB");
 builder.Services.AddServerSideBlazor();
-builder.Services.AddDbContextFactory<PolregioContext>(options => options.UseSqlite(connectionString));
+builder.Services.AddDbContextFactory<PolregioContext>(options => options.UseSqlite(connectionString), ServiceLifetime.Scoped);
 
 var app = builder.Build();
 

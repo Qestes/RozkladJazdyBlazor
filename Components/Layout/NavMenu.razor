@@ -12,7 +12,7 @@
 		</div>
 		<div class="search-field">
 			<label>Data</label>
-			<InputDate @bind-Value="inputFromUser.SearchDateSelected" />
+			<InputDate @bind-Value="inputFromUser.SearchDateSelected"/>
 		</div>
 		<div>
 			<button type="submit">Wyszukaj!</button>
@@ -26,37 +26,41 @@
 	// Execute when form is submitted
 	public void Submit()
 	{
-		navigationManager.NavigateTo($"/timetable/{inputFromUser.SearchStartStation}/{inputFromUser.SearchEndStation}/{inputFromUser.SearchDateSelected.ToString()}");
+		navigationManager.NavigateTo($"/timetable/{inputFromUser.FormatSearchInput()}");
 	}
 
 	public class SearchInput
 	{
 		// Attributes
 		public string SearchStartStation
-		{
-			get; set;
-		}
+			{ get; set; }
 		public string SearchEndStation
-		{
-			get; set;
-		}
+			{ get; set; }
 		public DateTime SearchDateSelected
-		{
-			get; set;
-		}
+			{ get; set; } = DateTime.Now;
+		public string SearchDate { get; set; }
 
 		// Constructors
-		public SearchInput(string start, string end, DateTime date)
+		public string FormatSearchInput()
 		{
-			SearchStartStation = string.IsNullOrEmpty(start) ? " " : start;
-			SearchEndStation = string.IsNullOrEmpty(end) ? " " : end;
-			SearchDateSelected = date;
+			string result = "";
+			result += string.IsNullOrEmpty(SearchStartStation) ? " " : SearchStartStation;
+			result += "/";
+			result += string.IsNullOrEmpty(SearchEndStation) ? " " : SearchEndStation;
+			result += "/";
+			string day = (SearchDateSelected.Day < 10) ? "0" : "";
+			day += SearchDateSelected.Day.ToString();
+			string month = (SearchDateSelected.Month < 10) ? "0" : "";
+			month += SearchDateSelected.Month.ToString();
+			result += SearchDateSelected.Year.ToString() + month + day;
+			return result;
 		}
 		public SearchInput()
 		{
-			SearchStartStation = "Start";
-			SearchEndStation = "Koniec";
-			SearchDateSelected = DateTime.Now;
+			SearchStartStation = "Zdzieszowice";
+			SearchEndStation = "Opole Główne";
+			DateTime date = DateTime.Now;
+			SearchDate = date.Year.ToString() + date.Month.ToString() + date.Day.ToString();
 		}
 	}
 }

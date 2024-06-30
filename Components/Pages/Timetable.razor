@@ -1,4 +1,7 @@
-﻿@page "/timetable/{SearchStartStation}/{SearchEndStation}/{SearchDateSelected}"
+﻿@using Microsoft.EntityFrameworkCore
+@using RozkladJazdyBlazor.Data
+@inject IDbContextFactory<PolregioContext> PolregioContextFactory;
+@page "/timetable/{SearchStartStation}/{SearchEndStation}/{SearchDateSelected}"
 
 <div class="timetable">
 	@* General information about user's input *@
@@ -14,33 +17,61 @@
 		</div>
 	</div>
 
-	@* Timetable *@
+	@if (@timetable is not null && @timetable.Count > 0)
+	{
+		<div class="table-responsive">
+			<table class="table table-striped table-hover table-bordered table-light border-dark">
+				<thead>
+					<tr>
+						<th scope="col">Stacja początkowa</th>
+						<th scope="col">Godzina odjazdu</th>
+						<th scope="col">Stacja końcowa</th>
+						<th scope="col">Godzina przyjazdu</th>
+						<th scope="col">Więcej informacji</th>
+					</tr>
+				</thead>
+				<tbody>
+					@foreach (var row in @timetable)
+					{
+						var link = $"/connection/{row.trip_id}";
+						<tr>
+							<td>@row.start_name</td>
+							<td>@row.start_departure_time</td>
+							<td>@row.end_name</td>
+							<td>@row.end_arrival_time</td>
+							<td><a href="@link">Więcej</a></td>
+						</tr>
+					}
+
+				</tbody>
+			</table>
+		</div>
+	}
 
 </div>
 
 @code {
 
-	
+	protected override async Task OnInitializedAsync()
+	{
+		await ShowTimetable();
+	}
+
+	List<string> trips_ids = new();
 
 	// Attributes
 	[Parameter]
 	public string SearchStartStation
-	{
-		get; set;
-	} = "Start";
+	{ get; set;	} = "Start";
 
 	[Parameter]
 	public string SearchEndStation
-	{
-		get; set;
-	} = "Koniec";
+	{ get; set; } = "Koniec";
 
 	[Parameter]
 	public string SearchDateSelected
-	{
-		get; set;
-	} = DateTime.Now.ToString();
+	{ get; set; } = DateTime.Now.ToString();
 
-	
+
 }
 

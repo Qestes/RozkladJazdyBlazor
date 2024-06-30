@@ -26,8 +26,6 @@ namespace RozkladJazdyBlazor.Data
 		{
 			Configuration = configuration;
 		}
-
-        //public PolregioContext() { }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 		{
 			optionsBuilder.UseSqlite(Configuration.GetConnectionString("PolregioDB"));
