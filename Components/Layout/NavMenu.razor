@@ -1,21 +1,28 @@
 ﻿@inject Microsoft.AspNetCore.Components.NavigationManager navigationManager
 
+<div class="logo">
+	<a href="/"><h1>Jazda z pociągami</h1></a>
+</div>
+<hr />
 <div class="search-bar">
 	<EditForm Model="inputFromUser" FormName="connection-search" OnSubmit="Submit">
 		<div class="search-field">
 			<label>Stacja początkowa</label>
+			<br />
 			<InputText @bind-Value="inputFromUser.SearchStartStation" />
 		</div>
 		<div class="search-field">
 			<label>Stacja końcowa</label>
+			<br />
 			<InputText @bind-Value="inputFromUser.SearchEndStation" />
 		</div>
 		<div class="search-field">
 			<label>Data</label>
+			<br />
 			<InputDate @bind-Value="inputFromUser.SearchDateSelected"/>
 		</div>
 		<div>
-			<button type="submit">Wyszukaj!</button>
+			<button class="submit" type="submit">Wyszukaj!</button>
 		</div>
 	</EditForm>
 </div>
