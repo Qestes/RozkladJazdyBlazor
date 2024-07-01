@@ -13,7 +13,7 @@
 			<h5>Stacja końcowa: @SearchEndStation</h5>
 		</div>
 		<div>
-			<h5>Data: @SearchDateSelected</h5>
+			<h5>Data: @date</h5>
 		</div>
 	</div>
 
@@ -55,6 +55,7 @@
 	protected override async Task OnInitializedAsync()
 	{
 		await ShowTimetable();
+		getDate();
 	}
 
 	List<string> trips_ids = new();
@@ -72,6 +73,20 @@
 	public string SearchDateSelected
 	{ get; set; } = DateTime.Now.ToString();
 
+	public void getDate()
+	{
+		date += SearchDateSelected[6];
+		date += SearchDateSelected[7];
+		date += ".";
+		date += SearchDateSelected[4];
+		date += SearchDateSelected[5];
+		date += ".";
+		date += SearchDateSelected[0];
+		date += SearchDateSelected[1];
+		date += SearchDateSelected[2];
+		date += SearchDateSelected[3];
+	}
 
+	string date = "";
 }
 
